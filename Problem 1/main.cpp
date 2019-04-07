@@ -114,6 +114,17 @@ int main() {
         cout << *it9 << endl;
         cout << "copyList size is: " << copyList.size() << endl;
         cout << "myList size is: " << myList.size() << endl;
+        cout << "=========================================" << endl;
+        auto copyListIt = copyList.end();
+        --copyListIt;
+        copyList.insert('O', copyListIt);
+        copyList.print();
+        cout << endl << "copyList size is: " << copyList.size() << endl;
+        cout << "=====================================" << endl;
+        copyListIt = copyList.end();
+        copyList.insert('W', copyListIt);
+        copyList.print();
+        cout << endl << "copyList size is: " << copyList.size() << endl;
     }
     catch(char const* msg)
     {

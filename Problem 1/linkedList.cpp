@@ -177,16 +177,15 @@ typename linkedList<T>::Iterator linkedList<T>::erase(Iterator position)
 }
 template <class T>
 void linkedList<T>::insert(T value, Iterator position) {
-    listSize++;
-    /// cannot allocate the new node here to assure no memory leaks occur (in case an exception was thrown)
+    node* temp = new node;
+    temp->data = value;
     if(position.Node() == postTail) /// if the iterator is pointing outside the list boundaries
     {
-        throw "cannot insert and item outside the list boundaries";
+        push_back(value);
+        return; /// returning so the the size doesn't get incremented twice.
     }
     else if(position.Node() == head)
     {
-        node* temp = new node;
-        temp->data = value;
         temp->prev = nullptr;
         temp->next = head;
         head = temp;
@@ -194,23 +193,18 @@ void linkedList<T>::insert(T value, Iterator position) {
     }
     else if (position.Node() == tail)
     {
-        node* temp = new node;
-        temp->data = value;
-        temp->next = postTail;
-        temp->prev = tail;
-        tail = temp;
-        temp->prev = tail;
-        temp->prev->next = temp;
-        postTail->prev = temp;
+        temp->next = tail;
+        temp->prev = tail->prev;
+        tail->prev->next = temp;
+        tail->prev = temp;
     }
     else
     {
-        node* temp = new node;
         node* current = position.Node();
-        temp->data = value;
         temp->next = current;
         temp->prev = current->prev;
         temp->prev->next = temp;
         temp->next->prev = temp;
     }
+    listSize++;
 }
